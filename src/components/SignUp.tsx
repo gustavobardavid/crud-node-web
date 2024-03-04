@@ -13,11 +13,13 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignUp() {
     const [name, setName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
+    const navigate = useNavigate()
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -32,6 +34,7 @@ export default function SignUp() {
     
             if (response) {
                 console.log('Usuário criado com sucesso!');
+                navigate('/')
             } else {
                 console.error('Erro ao criar usuário:', response);
                 }

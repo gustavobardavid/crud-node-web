@@ -35,7 +35,7 @@ export default function SignIn() {
             console.error('Erro ao buscar usuário:', response);
           }
         } catch (error) {
-          navigate('/')
+          navigate('/signup')
         }
       };
 
