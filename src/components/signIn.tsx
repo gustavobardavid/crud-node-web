@@ -10,22 +10,17 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function SignIn() {
-    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
-
+    const navigate = useNavigate()
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-    
-        const userData = {
-            name: name,
-            email: email,
-        };
     
         try {
             const response = await axios.get(`http://localhost:3000/user-find/${email}`, {
@@ -35,12 +30,12 @@ export default function SignIn() {
         });
     
           if (response) {
-            console.log('Usuário encontrado!');
+            navigate('/home')
           } else {
-            console.error('Erro ao criar usuário:', response);
+            console.error('Erro ao buscar usuário:', response);
           }
         } catch (error) {
-          console.error('Erro ao enviar solicitação:', error);
+          navigate('/')
         }
       };
 
@@ -65,18 +60,6 @@ export default function SignIn() {
             Sign in
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Name"
-                type="text"
-                id="name"
-                autoComplete="current-password"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
             <TextField
               margin="normal"
               required
@@ -88,10 +71,6 @@ export default function SignIn() {
               autoFocus
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
             />
             <Button
               type="submit"
